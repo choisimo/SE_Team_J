@@ -11,6 +11,8 @@
 ![img_1.png](img_1.png)
 
 ## test 폴더에 있는 testcase 실행 안 됨!!
-> 정의 요구사항이랑 맞지 않는 파일임!
+
 ![img_2.png](img_2.png)
+
+> 정의 요구사항이랑 맞지 않는 파일임!
 > custom_test_case 에 있는 파일로 테스트 해보기!!
