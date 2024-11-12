@@ -10,95 +10,43 @@ from gui import CarSimulatorGUI
 def execute_command_callback(command, car_controller):
 
     engine_status = car_controller.get_engine_status()
+    engine_status = car_controller.get_engine_status()
     car_speed = car_controller.get_speed()
     left_door_status = car_controller.get_left_door_status()
     right_door_status = car_controller.get_right_door_status()
     trunk_status = car_controller.get_trunk_status()
 
-
     # 2.2.1 엔진 제어 요구 사항
     # 1.현재 엔진 상태 확인 > 2.명령 입력 > 3.상태 변경 수행 > 4.상태 업데이트 > 5.상태 확인
     if command == "ENGINE_BTN":
-        # 1. 현재 엔진 상태 확인
         print(f"Current engine status: {engine_status}")
-
-        # 2. 명령 입력
-        print("ENGINE_BTN command executed")
-
-        # 3. 상태 변경 수행
         if car_speed == 0:
             car_controller.toggle_engine()
-
-        # 4. 엔진 상태 업데이트
             engine_status = "ON" if engine_status == "OFF" else "OFF"
-            return f"engine toggled to {engine_status}"
-
+            print(f"Engine toggled to {engine_status}")
         else:
-            return f"[ERROR] current speed must be 0 to toggle engine state."
-
-
-    # 2.2.3 가속 페달 요구 사항
-    # 1.현재 속도 확인 > 2.명령 입력 > 3.속도 증가 수행 > 4.속도 업데이트 > 5.상태 확인
-
-    # 3.2.3 가속 페달 제어
-    # 사전 조건:
-    # - 자동차의 엔진이 ON 상태이어야 함
-    # - 자동차의 모든 문이 CLOSED 상태이어야 함
-    # - 자동차의 트렁크가 CLOSED 상태이어야 함
-    # - 자동차의 속도가 200km/h 이하이어야 함
+            print("[ERROR] Speed must be 0 to toggle engine.")
 
     elif command == "ACCELERATE":
-
-        # 1. 현재 속도와 가속 상태를 사용자 인터페이스에 표시함
-        print(f"Current speed: {car_speed} km/h")
-        print(f"Current engine status: {engine_status}")
-        print(f"Left door status: {car_controller.left_door_status}, Right door status: {car_controller.right_door_status}")
-        print(f"Trunk status: {car_controller.trunk_status}")
-
-        # 2. 명령 입력
-        print("ACCELERATE command executed")
-
-        # 3. 사전 조건 만족할 때 가속 수행
-        if (engine_status == "ON" and
-            left_door_status == "CLOSED" and
-            right_door_status() == "CLOSED" and
-            trunk_status == "CLOSED" and
+        print(f"Current speed: {car_speed} km/h, Engine: {engine_status}")
+        if (engine_status == "ON" and left_door_status == "CLOSED" and
+            right_door_status == "CLOSED" and trunk_status == "CLOSED" and
             car_speed < 200):
-            car_controller.accelerate() # 속도 +10
-
-            # 4. 속도 업데이트
+            car_controller.accelerate()
             new_speed = car_controller.get_speed()
-            return f"Speed update to: {new_speed} km/h"
-
+            print(f"Speed updated to {new_speed} km/h")
         else:
-            return "[ERROR] Engine must be ON and speed below 200 to accelerate."
+            print("[ERROR] Conditions not met for acceleration.")
 
-
-    # 2.2.4 브레이크 페달 요구 사항
-    # 1.현재 속도 확인 > 2.명령 입력 > 3.속도 감소 수행 > 4.속도 업데이트 > 5.상태 확인
     elif command == "BRAKE":
-        # 1. 현재 속도 확인
         print(f"Current speed: {car_speed} km/h")
-
-        # 2. 명령 입력
-        print("Brake command executed")
-
-        # 3. 속도 감소 수행
         if engine_status == "ON":
-            car_controller.brake() # 속도 -10
-
-            # 4. 속도 업데이트
+            car_controller.brake()
             new_speed = car_controller.get_speed()
-            print(f"Speed update to: {new_speed} km/h")
-
-            # 5. 상태 확인
-            return f"Braked speed: {new_speed} km/h"
+            print(f"Braked to {new_speed} km/h")
         else:
-            return "[ERROR] Engine must be ON to brake"
+            print("[ERROR] Engine must be ON to brake.")
 
-
-    # 2.2.2 자동차 전체 잠금 장치 요구 사항
-    # 1.현재 잠금 상태 확인 > 2.명령 입력 > 3.상태 변경 수행 > 4.상태 업데이트 > 5.상태 확인
     elif command == "LOCK":
         car_controller.lock_vehicle() # 차량잠금
         execute_command_callback("LEFT_DOOR_LOCK",car_controller)
