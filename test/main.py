@@ -70,7 +70,7 @@ def execute_command_callback(command, car_controller):
             print("Left door unlocked")
 
     elif command == "LEFT_DOOR_OPEN":
-        if car_controller.left_door_lock() == "UNLOCKED" :
+        if car_controller.get_left_door_lock() == "UNLOCKED" :
             car_controller.open_left_door() # 왼쪽문 열기
             print("Left door opened")
 
@@ -88,7 +88,7 @@ def execute_command_callback(command, car_controller):
             print("Right door unlocked")
 
     elif command == "RIGHT_DOOR_OPEN":
-        if car_controller.right_door_lock() == "UNLOCKED" :
+        if car_controller.get_right_door_lock() == "UNLOCKED" :
             car_controller.open_right_door() # 오른쪽문 열기
             print("Right door open")
 
@@ -106,7 +106,7 @@ def execute_command_callback(command, car_controller):
         print("Trunk closed")
 
     elif command == "SOS": # SOS 버튼
-        while car_controller.speed > 0:
+        while car_controller.get_speed() > 0:
             execute_command_callback("BRAKE",car_controller)
         execute_command_callback("UNLOCK",car_controller)
         execute_command_callback("TRUNK_OPEN",car_controller)
