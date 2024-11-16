@@ -21,22 +21,26 @@ def execute_command_callback(command, car_controller):
         print(f"Engine Status: {'ON' if car_controller.get_engine_status() else 'OFF'}")  # 엔진 상태 출력
     elif command == "ACCELERATE":
         car_controller.accelerate() # 속도 +10
+        if car_controller.get_speed() >= 20 :
+            execute_command_callback("LOCK",car_controller) # 자동잠금
     elif command == "BRAKE":
         car_controller.brake() # 속도 -10
     elif command == "LOCK":
-        car_controller.lock_vehicle() # 차량잠금
-        execute_command_callback("LEFT_DOOR_LOCK",car_controller)
-        execute_command_callback("RIGHT_DOOR_LOCK",car_controller)
+        if car_controller.right_door_status() == "CLOSED" and car_controller.left_door_status() == "CLOSED":
+            car_controller.lock_vehicle() # 차량잠금
+            execute_command_callback("LEFT_DOOR_LOCK",car_controller)
+            execute_command_callback("RIGHT_DOOR_LOCK",car_controller)
     elif command == "UNLOCK":
         car_controller.unlock_vehicle() # 차량잠금해제
         execute_command_callback("LEFT_DOOR_UNLOCK",car_controller)
         execute_command_callback("RIGHT_DOOR_UNLOCK",car_controller)
     
     elif command == "LEFT_DOOR_LOCK":
-        car_controller.lock_left_door() # 왼쪽문 잠금
+        if car_controller.left_door_status() == "CLOSED":
+            car_controller.lock_left_door() # 왼쪽문 잠금
     elif command == "LEFT_DOOR_UNLOCK":
-        if car_controller.lock() == False :
-            car_controller.unlock_left_door() # 왼쪽문 잠금해제
+        car_controller.unlock_left_door() # 왼쪽문 잠금해제
+        car_controller.unlock_vehicle()
     elif command == "LEFT_DOOR_OPEN":
         if car_controller.get_left_door_lock() == "UNLOCKED" :
             car_controller.open_left_door() # 왼쪽문 열기
@@ -44,10 +48,11 @@ def execute_command_callback(command, car_controller):
         car_controller.close_left_door() # 왼쪽문 닫기
 
     elif command == "RIGHT_DOOR_LOCK":
-        car_controller.lock_right_door() # 오른쪽문 잠금
+        if car_controller.right_door_status() == "CLOSED":
+            car_controller.lock_right_door() # 오른쪽문 잠금
     elif command == "RIGHT_DOOR_UNLOCK":
-        if car_controller.lock() == False :
-            car_controller.unlock_right_door() # 오른쪽문 잠금해제
+        car_controller.unlock_right_door() # 오른쪽문 잠금해제
+        car_controller.unlock_vehicle()
     elif command == "RIGHT_DOOR_OPEN":
         if car_controller.get_right_door_lock() == "UNLOCKED" :
             car_controller.open_right_door() # 오른쪽문 열기
@@ -55,7 +60,7 @@ def execute_command_callback(command, car_controller):
         car_controller.close_right_door() # 오른쪽문 닫기
     
     elif command == "TRUNK_OPEN":
-        if car_controller.lock() == False :
+        if car_controller.lock() == False and car_controller.get_speed() == 0:
             car_controller.open_trunk() # 트렁크 열기
     elif command == "TRUNK_CLOSE":
         car_controller.close_trunk() # 트렁크 닫기
