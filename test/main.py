@@ -37,6 +37,7 @@ def execute_command_callback(command, car_controller):
             print(f"Speed updated to {new_speed} km/h")
             if new_speed >= 20 :
                 execute_command_callback("LOCK",car_controller) # 자동잠금
+
         else:
             print("[ERROR] Conditions not met for acceleration.")
 
@@ -73,6 +74,7 @@ def execute_command_callback(command, car_controller):
         car_controller.unlock_vehicle()
         print("Left door unlocked")
 				
+
     elif command == "LEFT_DOOR_OPEN":
         if car_controller.get_left_door_lock() == "UNLOCKED" :
             car_controller.open_left_door() # 왼쪽문 열기
@@ -92,6 +94,7 @@ def execute_command_callback(command, car_controller):
         car_controller.unlock_vehicle()
         print("Right door unlocked")
 				
+
     elif command == "RIGHT_DOOR_OPEN":
         if car_controller.get_right_door_lock() == "UNLOCKED" :
             car_controller.open_right_door() # 오른쪽문 열기
@@ -103,6 +106,7 @@ def execute_command_callback(command, car_controller):
     
     elif command == "TRUNK_OPEN":
         if car_controller.lock() == False and car_controller.get_speed() == 0:
+
             car_controller.open_trunk() # 트렁크 열기
             print("Trunk opened")
 
