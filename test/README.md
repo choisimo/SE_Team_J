@@ -85,7 +85,7 @@ class TestCarEngineControlWithBrakeRequirement(unittest.TestCase):
 ## 1. 
 브레이크와 엔진 점화 버튼이 같은 줄에서 실행될 때 엔진이 켜져야 함.
 ```
-"""
+    """
     if command == "ENGINE_BTN":
         print("\n")
         print(f"Current engine status: {engine_status}")
@@ -112,7 +112,7 @@ class TestCarEngineControlWithBrakeRequirement(unittest.TestCase):
 ## 2
 브레이크 없이 엔진 점화 버튼만 있는 경우 엔진이 켜지지 않아야 함.
 ```
-if command == "ENGINE_BTN":
+    if command == "ENGINE_BTN":
         print("\n")
         print(f"Current engine status: {engine_status}")
         if car_speed == 0 and engine_status == "ON" :
@@ -146,7 +146,7 @@ if command == "ENGINE_BTN":
 ```
 cmd_s = command.split() # 공백기준 명령어 분리
 
-if len(cmd_s) > 1: #길이 2부턴 한줄 동시 입력으로 처리
+    if len(cmd_s) > 1: #길이 2부턴 한줄 동시 입력으로 처리
         for i, cmd in enumerate(cmd_s):
             if cmd == "BRAKE" and i + 1 < len(cmd_s): # 다음요소가 유효하면
                 if cmd_s[i + 1] == "ENGINE_BTN": #BRAKE 다음 ENGINE_BTN 이면
@@ -175,7 +175,7 @@ if len(cmd_s) > 1: #길이 2부턴 한줄 동시 입력으로 처리
 ## 5
 엔진이 켜져 있고 속도가 0 이상인 상태에서 브레이크와 엔진 점화 버튼이 같은 줄에 입력되면 속도가 줄어야 함.
 ```
-if len(cmd_s) > 1: #길이 2부턴 한줄 동시 입력으로 처리
+    if len(cmd_s) > 1: #길이 2부턴 한줄 동시 입력으로 처리
         for i, cmd in enumerate(cmd_s):
             if cmd == "BRAKE" and i + 1 < len(cmd_s): # 다음요소가 유효하면
                 if cmd_s[i + 1] == "ENGINE_BTN": #BRAKE 다음 ENGINE_BTN 이면
